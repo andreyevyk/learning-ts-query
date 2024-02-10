@@ -159,9 +159,15 @@ export const handlers = [
          const page = url.searchParams.get('page')
 
          await delay(2000)
-         let items = posts
          if(search){
-            items = posts.filter(post => post.title.toLowerCase().includes(search.toLowerCase()))
+            return  HttpResponse.json({
+               paging: {
+                  totalPages: 1,
+                  page: 1,
+                  totalElements: 4,
+               },
+               items: posts.filter(post => post.title.toLowerCase().includes(search.toLowerCase()))
+            })
          }
          return HttpResponse.json({
             paging: {
@@ -169,7 +175,7 @@ export const handlers = [
                page: Number(page),
                totalElements: 6,
             },
-            items         
+            items: posts         
          })
       },
    ),

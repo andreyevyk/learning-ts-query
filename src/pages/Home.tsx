@@ -24,11 +24,10 @@ export function Home() {
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(0)
 
-  const { isPending, isError, data, error, isPlaceholderData } = useQuery({ 
-    queryKey: ['posts', page], 
+  const { isFetching, isError, data, error, isPlaceholderData } = useQuery({ 
+    queryKey: ['posts', search, page], 
     queryFn: () => fetchPosts(search, page),
     placeholderData: keepPreviousData,
-
   })
 
 
@@ -53,11 +52,11 @@ export function Home() {
         <Button>Novo post</Button>
       </header>
       <div className="grid grid-cols-3 gap-8 max-w-[1170px] mx-auto">
-        {isPending ? (
+        {isFetching ? (
           [1,2,3,4,5,6].map(i => (
             <Skeleton key={i} className="h-[380px] w-[380px] rounded-xl" />
           ))
-          ) : data.items.map((post) => (
+          ) : data?.items.map((post) => (
             <Link to={`${post.id}`}>
               <Card className="max-w-[370px] rounded-2xl" >
                 <CardHeader>
@@ -78,7 +77,7 @@ export function Home() {
           ))
         }
       </div>
-      {!isPending && (
+      {!isFetching && (
         <Pagination className="my-4">
           <PaginationContent>
             <PaginationItem 

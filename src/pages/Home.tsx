@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button"
+import { CreatePostDialog } from "@/components/CreatePostDialog"
+import { Likes } from "@/components/Likes"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
@@ -6,11 +7,9 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { debounce } from "@/core/debounce"
 import { PostResponse } from "@/mocks/handlers"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
-import { useState } from "react"
-import { FiHeart, FiMessageSquare, FiSearch, FiShare } from "react-icons/fi"
+import { useEffect, useState } from "react"
+import { FiSearch } from "react-icons/fi"
 import { Link } from "react-router-dom"
-
-
 
 const fetchPosts = (search: string, page: number):Promise<PostResponse> => {
   return fetch('/posts?' + new URLSearchParams({
@@ -24,12 +23,11 @@ export function Home() {
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(0)
 
-  const { isFetching, isError, data, error, isPlaceholderData } = useQuery({ 
+  const { isLoading, isError, data, error, isPlaceholderData,  } = useQuery({ 
     queryKey: ['posts', search, page], 
     queryFn: () => fetchPosts(search, page),
     placeholderData: keepPreviousData,
   })
-
 
   const debouncedSearch = debounce(
     (value: string) => setSearch(value) , 500
@@ -49,10 +47,10 @@ export function Home() {
           placeholder="Pesquisa..." 
           className="w-full max-w-[400px]"
         />
-        <Button>Novo post</Button>
+        <CreatePostDialog />
       </header>
       <div className="grid grid-cols-3 gap-8 max-w-[1170px] mx-auto">
-        {isFetching ? (
+        {isLoading ? (
           [1,2,3,4,5,6].map(i => (
             <Skeleton key={i} className="h-[380px] w-[380px] rounded-xl" />
           ))
@@ -61,12 +59,10 @@ export function Home() {
               <Card className="max-w-[370px] rounded-2xl" >
                 <CardHeader>
                   <img className="object-cover w-full h-[260px]" src={post.img} />
-                  <div className="flex justify-between">
+                  <div className="flex justify-between items-center">
                     <CardDescription>{new Date(post.updatedAt).toLocaleDateString()}</CardDescription>
                     <div className="flex gap-3">
-                      <CardDescription className="flex gap-1 items-center"><FiHeart/> {post.likes}</CardDescription>
-                      <CardDescription className="flex gap-1 items-center"><FiMessageSquare /> {post.messages}</CardDescription>
-                      <CardDescription className="flex gap-1 items-center"><FiShare/> {post.shares}</CardDescription>
+                      <Likes postId={post.id} quantity={post.likes} />
                     </div>
                   </div>
                   <CardTitle>{post.title}</CardTitle>     
@@ -77,7 +73,7 @@ export function Home() {
           ))
         }
       </div>
-      {!isFetching && (
+      {!isLoading && (
         <Pagination className="my-4">
           <PaginationContent>
             <PaginationItem 

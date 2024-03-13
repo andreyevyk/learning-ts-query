@@ -1,13 +1,14 @@
+import { Likes } from "@/components/Likes"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { CommentResponse, IPost } from "@/mocks/handlers"
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query"
 import React from "react"
-import { FiHeart, FiLoader, FiMessageSquare, FiShare } from "react-icons/fi"
+import { FiLoader } from "react-icons/fi"
 import { useParams } from "react-router-dom"
 
  
-const fetchPost = (id: string):Promise<IPost> => {
+const fetchPost = (id: number):Promise<IPost> => {
    return fetch(`/posts/${id}`).then(res => res.json())
 }
 
@@ -21,53 +22,48 @@ const fetchComments = ({ queryKey, pageParam }: any):Promise<CommentResponse> =>
 
 export const Post = () => {
    const { id } = useParams<{id: string}>()
-
-   const { isPending, isError, data } = useQuery({ 
-      queryKey: ['post', id], 
-      queryFn: () => fetchPost(id!)
+   const parsedId = Number(id)
+   const { isFetching, isError, data } = useQuery({ 
+      queryKey: ['post', parsedId], 
+      queryFn: () => fetchPost(parsedId)
    })
-
+   
    const {
       data: dataComments,
       fetchNextPage,
       hasNextPage,
       isPending: isCommentsPending,
       isFetchingNextPage,
-    } = useInfiniteQuery({
-      queryKey: ['comments', id],
+   } = useInfiniteQuery({
+      queryKey: ['comments', parsedId],
       queryFn: fetchComments,
       initialPageParam: 0,
       getNextPageParam: (lastPage) => lastPage.nextCursor,
-    })
-  
+   })
 
    if(isError) return <div>Error...</div>
 
    return (
        <div className="mx-auto max-w-[970px]">
          <header className="flex flex-col pb-8 border-b border-gray-200">
-            {isPending ? <Skeleton className="w-[970px] h-[380px]" /> : <img className="w-[970px] h-[380px] object-cover" src={data.img} />}
+            {isFetching ? <Skeleton className="w-[970px] h-[380px]" /> : <img className="w-[970px] h-[380px] object-cover" src={data?.img} />}
             <div className="mt-10">
                <h1 className="text-4xl font-bold">{data?.title}</h1>
-               <div className="flex gap-10 mt-5">
+               <div className="flex gap-10 mt-5 items-center">
                   <span>{data && new Date(data.updatedAt).toLocaleDateString()}</span>
                   <div className="flex gap-3">
-                     { isPending ? [1,2,3].map(i => <Skeleton key={i} className="w-10 h-10" />) :  (
-                        <>
-                           <span className="flex gap-1 items-center"><FiHeart/> {data.likes}</span>
-                           <span className="flex gap-1 items-center"><FiMessageSquare /> {data.messages}</span>
-                           <span className="flex gap-1 items-center"><FiShare/> {data.shares}</span>
-                        </>
+                     { isFetching ? [1,2,3].map(i => <Skeleton key={i} className="w-10 h-10" />) :  (
+                        <Likes postId={data!.id} quantity={data!.likes} />
                      )}
                   </div>
                </div>
             </div>
          </header>
          <main>
-            {isPending ? Array.from({ length: 10 }).map((_, i) => (
+            {isFetching ? Array.from({ length: 10 }).map((_, i) => (
                <Skeleton key={i} className="w-full h-10 mt-2" />
             )) : (
-               <p className="text-lg mt-10 text-gray-500">{data.text}</p>
+               <p className="text-lg mt-10 text-gray-500">{data?.text}</p>
             )}
          </main>
          <footer className="flex flex-col my-4 p-4 bg-gray-50 gap-4 rounded-xl">

@@ -2,15 +2,14 @@
 import { randomDate } from '@/core/randomDate'
 import { delay, http, HttpResponse } from 'msw'
 import {faker} from '@faker-js/faker'
+import { PostForm } from '@/components/CreatePostDialog'
 
-const getPosts = () => [ 
+const getposts = () => [ 
    { 
       id: 1, 
       img: "/post-2.png", 
       updatedAt: randomDate(new Date(2021, 0, 1), new Date()),
-      likes: Math.ceil(Math.random() * 10),
-      shares: Math.ceil(Math.random() * 10),
-      messages: Math.ceil(Math.random() * 10),
+      likes: Math.ceil(Math.random() * 100),      
       title: '10 dicas para conseguir a vaga desejada', 
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nibh nibh eu in aliquet ut adipiscing neque. Sed volutpat aenean sit vitae, sed tristique. '
    }, 
@@ -18,9 +17,7 @@ const getPosts = () => [
       id: 2, 
       img: "/post-6.png", 
       updatedAt: randomDate(new Date(2021, 0, 1), new Date()),
-      likes: Math.ceil(Math.random() * 10),
-      shares: Math.ceil(Math.random() * 10),
-      messages: Math.ceil(Math.random() * 10),
+      likes: Math.ceil(Math.random() * 100),      
       title: 'Deixe seu código mais semântico com essas dicas', 
       description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nibh nibh eu in aliquet ut adipiscing neque. Sed volutpat aenean sit vitae, sed tristique.'
    }, 
@@ -28,9 +25,7 @@ const getPosts = () => [
       id: 3,
       img: "/post-4.png", 
       updatedAt: randomDate(new Date(2021, 0, 1), new Date()),
-      likes: Math.ceil(Math.random() * 10),
-      shares: Math.ceil(Math.random() * 10),
-      messages: Math.ceil(Math.random() * 10),
+      likes: Math.ceil(Math.random() * 100),      
       title: 'Use essas dicas nas suas aplicações mobile', 
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nibh nibh eu in aliquet ut adipiscing neque. Sed volutpat aenean sit vitae, sed tristique."
    },
@@ -38,9 +33,7 @@ const getPosts = () => [
       id: 4,
       img: "/post-7.png", 
       updatedAt: randomDate(new Date(2021, 0, 1), new Date()),
-      likes: Math.ceil(Math.random() * 10),
-      shares: Math.ceil(Math.random() * 10),
-      messages: Math.ceil(Math.random() * 10),
+      likes: Math.ceil(Math.random() * 100),      
       title: 'Stop Using localStorage!', 
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nibh nibh eu in aliquet ut adipiscing neque. Sed volutpat aenean sit vitae, sed tristique."
    },
@@ -48,9 +41,7 @@ const getPosts = () => [
       id: 5,
       img: "/post-8.png", 
       updatedAt: randomDate(new Date(2021, 0, 1), new Date()),
-      likes: Math.ceil(Math.random() * 10),
-      shares: Math.ceil(Math.random() * 10),
-      messages: Math.ceil(Math.random() * 10),
+      likes: Math.ceil(Math.random() * 100),      
       title: 'Stop using “npm install” in your CI/CD pipeline', 
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nibh nibh eu in aliquet ut adipiscing neque. Sed volutpat aenean sit vitae, sed tristique."
    },
@@ -58,13 +49,51 @@ const getPosts = () => [
       id: 6,
       img: "/post-1.png", 
       updatedAt: randomDate(new Date(2021, 0, 1), new Date()),
-      likes: Math.ceil(Math.random() * 10),
-      shares: Math.ceil(Math.random() * 10),
-      messages: Math.ceil(Math.random() * 10),
+      likes: Math.ceil(Math.random() * 100),      
       title: 'Use essas dicas nas suas aplicações mobile', 
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nibh nibh eu in aliquet ut adipiscing neque. Sed volutpat aenean sit vitae, sed tristique."
    },
-].sort( () => .5 - Math.random());
+   { 
+      id: 6,
+      img: "/post-1.png", 
+      updatedAt: randomDate(new Date(2021, 0, 1), new Date()),
+      likes: Math.ceil(Math.random() * 100),      
+      title: 'Use essas dicas nas suas aplicações mobile', 
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nibh nibh eu in aliquet ut adipiscing neque. Sed volutpat aenean sit vitae, sed tristique."
+   },
+   { 
+      id: 6,
+      img: "/post-1.png", 
+      updatedAt: randomDate(new Date(2021, 0, 1), new Date()),
+      likes: Math.ceil(Math.random() * 100),      
+      title: 'Use essas dicas nas suas aplicações mobile', 
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nibh nibh eu in aliquet ut adipiscing neque. Sed volutpat aenean sit vitae, sed tristique."
+   },
+   { 
+      id: 6,
+      img: "/post-1.png", 
+      updatedAt: randomDate(new Date(2021, 0, 1), new Date()),
+      likes: Math.ceil(Math.random() * 100),      
+      title: 'Use essas dicas nas suas aplicações mobile', 
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nibh nibh eu in aliquet ut adipiscing neque. Sed volutpat aenean sit vitae, sed tristique."
+   },
+   { 
+      id: 6,
+      img: "/post-1.png", 
+      updatedAt: randomDate(new Date(2021, 0, 1), new Date()),
+      likes: Math.ceil(Math.random() * 100),      
+      title: 'Use essas dicas nas suas aplicações mobile', 
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nibh nibh eu in aliquet ut adipiscing neque. Sed volutpat aenean sit vitae, sed tristique."
+   },
+   { 
+      id: 6,
+      img: "/post-1.png", 
+      updatedAt: randomDate(new Date(2021, 0, 1), new Date()),
+      likes: Math.ceil(Math.random() * 100),      
+      title: 'Use essas dicas nas suas aplicações mobile', 
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nibh nibh eu in aliquet ut adipiscing neque. Sed volutpat aenean sit vitae, sed tristique."
+   },
+]
 
 export type IComment = {
    id: number
@@ -82,8 +111,6 @@ export type IPost = {
    img: string
    updatedAt: string
    likes: number
-   shares: number
-   messages: number
 }
 
 type Paginated<T> = {
@@ -153,29 +180,30 @@ export const handlers = [
    http.get(
       '/posts',
       async ({request}) => {
-         const posts = getPosts()
          const url = new URL(request.url)
          const search = url.searchParams.get('search')
          const page = url.searchParams.get('page')
-
-         await delay(2000)
+         const posts = getposts()
+         await delay(500)
          if(search){
+            const filteredPosts = posts.filter(post => post.title.toLowerCase().includes(search.toLowerCase()))
             return  HttpResponse.json({
                paging: {
-                  totalPages: 1,
+                  totalPages: filteredPosts.length / 6,
                   page: 1,
                   totalElements: 4,
                },
-               items: posts.filter(post => post.title.toLowerCase().includes(search.toLowerCase()))
+               items: filteredPosts
             })
          }
+         
          return HttpResponse.json({
             paging: {
-               totalPages: 4,
+               totalPages: Math.ceil(posts.length / 6),
                page: Number(page),
                totalElements: 6,
             },
-            items: posts         
+            items: posts.slice(Number(page) * 6, (Number(page) + 1) * 6)
          })
       },
    ),
@@ -183,10 +211,11 @@ export const handlers = [
       '/posts/:id',
       async ({params}) => {
          const { id } = params
+         const posts = getposts()
          await delay(2000)
-         
+
          return HttpResponse.json({
-            ...getPosts().find(post => post.id === Number(id)),
+            ...posts.find(post => post.id === Number(id)),
             text: `
                Pellentesque hendrerit urna sed finibus sollicitudin. Donec ac dui justo. In pretium tempus sollicitudin. Donec sagittis cursus rhoncus. Vestibulum felis tellus, suscipit at iaculis eget, molestie auctor justo. Pellentesque enim ligula, mollis eget pretium ut, hendrerit vel nisl. Aenean ultricies nisl id lectus dictum laoreet. Quisque nec sem neque. Cras vulputate tempor facilisis.
                Nam vel enim sed purus consectetur eleifend. Donec sed urna mauris. Mauris ex urna, laoreet a ullamcorper id, placerat sit amet nibh. Vivamus dignissim scelerisque felis, et lacinia mi ultrices pellentesque. Aenean maximus odio metus, id faucibus ligula eleifend a. Nunc porttitor elit non semper rhoncus. Suspendisse interdum gravida felis, sit amet consectetur arcu fringilla vitae. Aenean id leo in felis consequat vulputate. Morbi fermentum pharetra justo, ut iaculis nunc fringilla at. In hac habitasse platea dictumst.
@@ -197,6 +226,37 @@ export const handlers = [
                Curabitur id rutrum ante, id feugiat nunc. Cras non tincidunt turpis, in volutpat urna. Aliquam a massa sit amet lacus sodales vestibulum eget non leo. Morbi tincidunt eros quis lacus hendrerit, et gravida ipsum consequat. Nulla facilisi. Integer dictum dui at venenatis convallis. Sed dolor sem, cursus a turpis sit amet, congue aliquet ex. Ut id egestas ante.
             `
          })
+      },
+   ),
+   http.post(
+      '/posts',
+      async ({request}) => {
+         const body = await request.json() as PostForm
+         const posts = getposts()
+         await delay(500)
+         
+         posts.unshift({
+            id: posts.length + 1,
+            img: "/post-3.png",
+            updatedAt: randomDate(new Date(2021, 0, 1), new Date()),
+            likes: 0,
+            description: body.description,
+            title: body.title
+         })
+
+         return HttpResponse.json({ posts })
+      },
+   ),
+   http.patch(
+      '/posts/:id/like',
+      async ({params}) => {   
+         const { id } = params
+         const posts = getposts()
+         const updatedPost = posts.find(post => post.id === Number(id))!
+         updatedPost!.likes += 1
+         updatedPost!.updatedAt = randomDate(new Date(2021, 0, 1), new Date())
+         
+         return HttpResponse.json({})
       },
    ),
    http.get(
